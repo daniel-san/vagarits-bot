@@ -19,11 +19,18 @@ if($message['text'] === "/vagarits"){
     $cand0 = $data["recent_candidates"][0]["email"];
     $cand1 = $data["recent_candidates"][1]["email"];
     $cand2 = $data["recent_candidates"][2]["email"];
-    
-    $json_data = [
-        "chat_id" => $message['chat']['id'],
-        "text" => "Há {$cand_total} candidatos cadastrados.\nOs emails dos últimos 3 candidatos são: {$cand0}, {$cand1}, e {$cand2}.",
-    ];
+
+    if(count($data["recent_candidates"]) == 0){
+        $json_data = [
+            "chat_id" => $message['chat']['id'],
+            "text" => "Não há candidatos cadastrados",
+        ];
+    } else {
+        $json_data = [
+            "chat_id" => $message['chat']['id'],
+            "text" => "Há {$cand_total} candidatos cadastrados.\nOs emails dos últimos candidatos são: {$cand0}, {$cand1}, {$cand2}.",
+        ];
+    }    
     
     //changing message object to a json format
     $post_json = json_encode($json_data);
